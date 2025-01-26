@@ -91,6 +91,7 @@ pub fn swiglu(y: &mut Tensor<f32>, x: &Tensor<f32>) {
         //println!("silu:{}\n", silu);
         _y[i] = silu * _y[i];
         i += 1;
+        
     }
     //todo!("实现 silu，这里给了一些前期准备工作的提示，你可以参考")
 }
