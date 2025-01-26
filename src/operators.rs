@@ -1,3 +1,4 @@
+use std::f32::consts::E;
 use crate::tensor::Tensor;
 
 // get (row) vectors from a 2D table given a list of indices
@@ -77,13 +78,21 @@ pub fn rms_norm(y: &mut Tensor<f32>, x: &Tensor<f32>, w: &Tensor<f32>, epsilon: 
 // y = silu(x) * y
 // hint: this is an element-wise operation
 pub fn swiglu(y: &mut Tensor<f32>, x: &Tensor<f32>) {
-    // let len = y.size();
-    // assert!(len == x.size());
+    let len = y.size();
+    assert!(len == x.size());
 
-    // let _y = unsafe { y.data_mut() };
-    // let _x = x.data();
-
-    todo!("实现 silu，这里给了一些前期准备工作的提示，你可以参考")
+    let _y = unsafe { y.data_mut() };
+    let _x = x.data();
+    let mut i = 0;
+    for &item in _x {
+        let sigmoid = 1./(1.+E.powf(-item));
+        //println!("sigmoid:{}\n", sigmoid);
+        let silu = sigmoid * item;
+        //println!("silu:{}\n", silu);
+        _y[i] = silu * _y[i];
+        i += 1;
+    }
+    //todo!("实现 silu，这里给了一些前期准备工作的提示，你可以参考")
 }
 
 // C = beta * C + alpha * A @ B^T
